@@ -1,0 +1,54 @@
+.linkGrid {
+  display: -moz-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-right: 10px;
+}
+
+.linkList {
+  padding: 4px;
+  min-width: 200px;
+  margin-right: 10px;
+}
+
+.linkSpan {
+    width: 300px;
+    position: relative;
+    top: -20px;
+}
+
+.imageSpan {
+}
+
+.linkSite {
+    font-family: Lucida Grande;
+    font-size: 11px;
+    position: relative;
+    left: 48px;
+}
+
+.linkItem {
+    width: 300px;
+    white-space: nowrap;
+    font-size: 14px;
+    overflow: hidden;
+    font-family: Lucida Grande;
+    height: 46px;
+}
+
+.linkImage {
+    width: 30px;
+    margin-right: 4px;
+    padding: 6px;
+}
+
+.linkDiv {
+  display: inline-block;
+  width: 150px;
+  overflow: hidden;
+};
+
+.linkRef {
+    font-size: 16px;
+}
+
