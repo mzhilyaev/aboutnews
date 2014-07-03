@@ -20,6 +20,27 @@
 .imageSpan {
 }
 
+.maxButton {
+  position: absolute;
+  top: 12px;
+  right: 32px;
+  width: 16px;
+}
+
+.minButton {
+  position: relative;
+  top: -8px;
+}
+.reloadButton {
+  position: relative;
+  top: -8px;
+}
+
+.moreButton {
+  position: relative;
+  top: -8px;
+}
+
 .linkSite {
     font-family: Lucida Grande;
     font-size: 11px;

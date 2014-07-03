@@ -4,7 +4,7 @@ function makeXHTMLelement(elem) {
 }
 
 function requestContent() {
-  self.port.emit("recomend");
+  self.port.emit("recommend");
 }
 
 self.port.on("style", function(file) {
@@ -24,16 +24,49 @@ sideBar = $("<div>").
           addClass("linkGrid");
 
 tabGrid.parent().append( sideBar );
+let controlButton;
 
-self.port.on("show", function(stories) {
-  if (!stories || stories.length == 0) return;
-  let ul = makeXHTMLelement("ul").addClass("linkList").append(
-    makeXHTMLelement("button").text("Read More News >>").click(function () {
+self.port.on("show", function(stories, options = {}) {
+  if (!controlButton) {
+    controlButton = makeXHTMLelement("img").
+                      attr("id", "news-show").
+                      addClass("maxButton").click(function () {
+                        self.port.emit("maximize");
+                    });
+    $("#newtab-toggle").parent().append(controlButton);
+  }
+
+  sideBar.empty();
+  if (options.hide) {
+    controlButton.attr("src", dataUrl + "add.png").attr("title","Show News").click(function () {
+      self.port.emit("maximize");
+    });
+  }
+  else {
+    controlButton.attr("src", dataUrl + "fileclose.png").attr("title","Hide News").click(function () {
+      self.port.emit("minimize");
+    });
+  }
+
+  if (!stories || stories.length == 0 || options.hide) return;
+  let ul = makeXHTMLelement("ul").addClass("linkList");
+  ul.append(
+    makeXHTMLelement("button").text("Hide").addClass("minButton").click(function () {
+      self.port.emit("minimize");
+    }
+  ));
+  ul.append(
+    makeXHTMLelement("button").text("Reload").addClass("reloadButton").click(function () {
+      self.port.emit("reload");
+    }
+  ));
+  ul.append(
+    makeXHTMLelement("button").text("More News >>").addClass("moreButton").click(function () {
       //window.open("about:news");
       alert("work in progress");
     }
   ));
-  sideBar.empty();
+  
   sideBar.append(ul);
   for( let i in stories) {
     story = stories[i];
