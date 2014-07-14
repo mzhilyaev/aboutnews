@@ -1,0 +1,58 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {display: none;}
+.container {margin-top: 50px;}
+.quote-btn {margin-bottom: 30px}
+.quoteContainer {width: 960px;}
+.quote-card {padding: 20px;}
+.quote {font-family: "Open Sans", Helvetica, Arial; font-weight: 200; font-size: 24pt;}
+.feed-table {border: 1px solid; padding: 4px; margin-top: 10px; margin-bottom: 10px;}
+.feed-cell:first-child {padding: 4px;}
+.feed-cell span {padding: 4px;}
+.error-message {font-size: large; color: red;}
+.mainContent {padding-top: 10px;}
+.inactive-tab {color: red; border-bottom: 1px solid black;}
+.active-tab {color: blue; border: 1px solid black; border-bottom: 1px solid white;}
+.tab-label {position: relative; margin-bottom: -1px;}
+.tab-label:hoover {border: 1px solid black; border-bottom: 1px solid white;}
+.tab-spacer {
+  min-width: 500px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid black;
+  display: -moz-inline-box;
+  position: relative;
+  margin-left: -1px;
+}
+
+.scored-results {
+  max-height: 350px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow-y: scroll;
+}
+
+.doc-score {
+  color: red;
+  margin-right: 10px;
+}
+
+.doc-summary {
+  padding-left: 20px;
+}
+
+.doc-terms {
+  padding-left: 20px;
+}
+
+.doc-keyword {
+  padding: 6px;
+}
+
+.doc-published {
+  color: green;
+  margin-left: 10px;
+}
+
+.doc-toggle {
+  border: 1px solid black;
+}
+
+
