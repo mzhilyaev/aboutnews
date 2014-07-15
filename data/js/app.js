@@ -11,7 +11,9 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
   $scope.doConfigureFeeds = true;
   $scope.doScoreFeeds = true;
   $scope.Math = window.Math;
-  $scope.feedDocs = [];
+  $scope.hours = 24;
+  $scope.maxStories = 10;
+  $scope.recommended = [];
 
   $scope.removeFeed = function(url) {
     self.port.emit("removeFeed", url);
@@ -42,6 +44,11 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
     self.port.emit("addFeed", $scope.feedUrl);
   }
 
+  $scope.recommend = function recommend() {
+    delete $scope.error;
+    self.port.emit("recommend", $scope.hours, $scope.maxStories);
+  }
+
   $scope.toggleFeed = function(id) {
     $("#_feed_scored_" + id).toggle();
     if ($("#_feed_toggle_" + id).text() == "Hide") {
@@ -59,6 +66,12 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
   self.port.on("updateFeeds", function(feeds) {
     $scope.$apply(_ => {
       $scope.feeds = feeds;
+    });
+  });
+
+  self.port.on("updateRecommended", function(recs) {
+    $scope.$apply(_ => {
+      $scope.recommended = recs;
     });
   });
 
