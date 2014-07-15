@@ -14,6 +14,7 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
   $scope.hours = 24;
   $scope.maxStories = 10;
   $scope.recommended = [];
+  $scope.feedsDocOrder = [];
 
   $scope.removeFeed = function(url) {
     self.port.emit("removeFeed", url);
@@ -63,8 +64,33 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
     $("#_"+a+"_"+b).toggle();
   }
 
+  $scope.toggleSort = function(index) {
+    if ($scope.feedsDocOrder[index]) {
+      // sort by date
+      $scope.feeds[index].docs.sort((a,b) => {
+        return b.published - a.published;
+      });
+      $scope.feedsDocOrder[index] = false;
+      $("#_feed_sort_" + index).text("sort by score");
+    } else {
+      // sort by score
+      $scope.feeds[index].docs.sort((a,b) => {
+        return b.score - a.score;
+      });
+      $scope.feedsDocOrder[index] = true;
+      $("#_feed_sort_" + index).text("sort by date");
+    }
+  }
+
   self.port.on("updateFeeds", function(feeds) {
     $scope.$apply(_ => {
+      // order feeds properly
+      for (let index = 0; index < feeds.length; index++) {
+        if ($scope.feedsDocOrder[index]) {
+          // we need to order by score
+          feeds[index].docs.sort((a,b) => { return b.score - a.score;});
+        }
+      }
       $scope.feeds = feeds;
     });
   });
@@ -76,7 +102,6 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
   });
 
   self.port.on("updateFeedError", function(data) {
-    dump(JSON.stringify(data) + " >>>>\n");
     $scope.$apply(_ => {
       $scope.error = data.error;
     });
