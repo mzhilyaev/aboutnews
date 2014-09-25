@@ -113,6 +113,11 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
     });
   });
 
+  self.port.emit("data-url");
+  self.port.on("data-url", function(url) {
+    $scope.dataUrl = url;
+  });
+
 });
 
 angular.bootstrap(document, ['newsDebugApp']);
