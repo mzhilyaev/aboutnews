@@ -8,10 +8,10 @@
   "version": "0.1",
   "preferences": [
     {
-      "name": "outbrainAPIKey",
-      "title": "outbrain API Key",
+      "name": "docServer",
+      "title": "document server",
       "type": "string",
-      "value": ""
+      "value": "http://ec2-107-22-91-82.compute-1.amazonaws.com:3000"
     }
   ]
 }
