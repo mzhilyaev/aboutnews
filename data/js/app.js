@@ -8,108 +8,56 @@ newsDebugApp.filter('escape', function() {
 
 newsDebugApp.controller("newsDebugCtrl", function($scope) {
   $scope.newsDebug = null;
-  $scope.doConfigureFeeds = true;
-  $scope.doScoreFeeds = true;
+  $scope.doConfigureSites = true;
   $scope.Math = window.Math;
-  $scope.hours = 24;
-  $scope.maxStories = 10;
-  $scope.recommended = [];
-  $scope.feedsDocOrder = [];
 
-  $scope.removeFeed = function(url) {
-    self.port.emit("removeFeed", url);
+  $scope.refreshSiteInfo = function(site) {
+    console.log("sending refresh");
+    self.port.emit("refreshSiteInfo");
   }
 
-  $scope.toggleScoreFeeds = function() {
-    $scope.doScoreFeeds = !scope.doScoreFeeds;
+  $scope.getResentDocs = function(site) {
+    self.port.emit("recentDocs", site);
   }
 
-  $scope.toggleConfigureFeeds = function() {
-    $scope.doConfigureFeeds = !scope.doConfigureFeeds;
+  $scope.removeSite = function(site) {
+    self.port.emit("removeSite", site);
   }
 
-  $scope.clearFeed = function(url) {
-    self.port.emit("clearFeed", url);
+  $scope.clearSite = function(site) {
+    self.port.emit("clearSite", site);
   }
 
-  $scope.removeFeed = function(url) {
-    self.port.emit("removeFeed", url);
-  }
-
-  $scope.scoreFeed = function(url) {
-    self.port.emit("scoreFeed", url);
-  }
-
-  $scope.submitFeedUrl = function submitFeedUrl() {
+  $scope.submitSite = function() {
     delete $scope.error;
-    self.port.emit("addFeed", $scope.feedUrl);
+    self.port.emit("addSite", $scope.site);
   }
 
-  $scope.recommend = function recommend() {
-    delete $scope.error;
-    self.port.emit("recommend", $scope.hours, $scope.maxStories);
+  $scope.showRanked = function(site) {
+    self.port.emit("getRanked", site);
   }
 
-  $scope.toggleFeed = function(id) {
-    $("#_feed_scored_" + id).toggle();
-    if ($("#_feed_toggle_" + id).text() == "Hide") {
-      $("#_feed_toggle_" + id).text("Show");
-    }
-    else {
-      $("#_feed_toggle_" + id).text("Hide");
-    }
+  $scope.clearRanked = function() {
+    $scope.rankedDocs = null;
   }
 
-  $scope.toggleKeys = function(a,b) {
-    $("#_"+a+"_"+b).toggle();
-  }
-
-  $scope.toggleSort = function(index) {
-    if ($scope.feedsDocOrder[index]) {
-      // sort by date
-      $scope.feeds[index].docs.sort((a,b) => {
-        return b.published - a.published;
-      });
-      $scope.feedsDocOrder[index] = false;
-      $("#_feed_sort_" + index).text("sort by score");
-    } else {
-      // sort by score
-      $scope.feeds[index].docs.sort((a,b) => {
-        return b.score - a.score;
-      });
-      $scope.feedsDocOrder[index] = true;
-      $("#_feed_sort_" + index).text("sort by date");
-    }
-  }
-
-  self.port.on("updateFeeds", function(feeds) {
+  self.port.on("updateRanked", function(data) {
     $scope.$apply(_ => {
-      // order feeds properly
-      for (let index = 0; index < feeds.length; index++) {
-        if ($scope.feedsDocOrder[index]) {
-          // we need to order by score
-          feeds[index].docs.sort((a,b) => { return b.score - a.score;});
-        }
-      }
-      $scope.feeds = feeds;
+      $scope.rankedDocs = JSON.stringify(data, null, 1);
     });
   });
 
-  self.port.on("updateRecommended", function(recs) {
+  self.port.on("updateSites", function(sites) {
+    console.log(JSON.stringify(sites));
     $scope.$apply(_ => {
-      $scope.recommended = recs;
+      $scope.siteNames = Object.keys(sites);
+      $scope.sites = sites;
     });
   });
 
-  self.port.on("updateFeedError", function(data) {
+  self.port.on("addSiteError", function(data) {
     $scope.$apply(_ => {
       $scope.error = data.error;
-    });
-  });
-
-  self.port.on("scoredFeedResults", function(data) {
-    $scope.$apply(_ => {
-      $scope.scored = data.error;
     });
   });
 
