@@ -50,8 +50,15 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
   self.port.on("updateSites", function(sites) {
     console.log(JSON.stringify(sites));
     $scope.$apply(_ => {
-      $scope.siteNames = Object.keys(sites);
-      $scope.sites = sites;
+      $scope.sites = [];
+      Object.keys(sites).forEach(site => {
+        let entry = sites[site];
+        $scope.sites.push({
+          site: site,
+          lastUpdated: new Date(entry.lastUpdated),
+          sequenceID: entry.sequenceId,
+        });
+      });
     });
   });
 
