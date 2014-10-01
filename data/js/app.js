@@ -74,7 +74,32 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
 
 });
 
-angular.bootstrap(document, ['newsDebugApp']);
+
+newsDebugApp.controller("newsShowCtrl", function($scope) {
+  $scope.Math = window.Math;
+
+  $scope.showDocs = function() {
+    console.log($scope.siteName);
+    console.log($scope.rankerName);
+  };
+
+  self.port.on("updateNames", function(data) {
+    $scope.$apply(_ => {
+      $scope.siteNames = data.sites;
+      $scope.rankerNames = data.rankers;
+      console.log(data.rankers);
+    });
+  });
+
+  self.port.on("addSiteError", function(data) {
+    $scope.$apply(_ => {
+      $scope.error = data.error;
+    });
+  });
+
+});
+
+//angular.bootstrap(document, ['newsDebugApp']);
 
 // Low-level data injection
 self.port.on("style", function(file) {

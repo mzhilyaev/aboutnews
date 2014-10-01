@@ -1,0 +1,41 @@
+<!doctype html>
+<html ng-app="newsDebugApp">
+    <head>
+        <meta charset="utf-8">
+        <title>About News Debug</title>
+    </head>
+    <body ng-cloak>
+        <div class="container" ng-controller="newsShowCtrl">
+        <!--
+         <div class="btn-group">
+             <button id="sitesTab" class="btn" ng-click="toggleConfigureSites()">Configure Data Sites</button>
+             <button id="scoreTab" class="btn" ng-click="toggleScoreSites()">Score Data Sites</button>
+         </div>
+         -->
+         <div class="mainContent">
+            <form ng-submit="showDocs()" style="display: inline">
+              <select 
+                ng-model="siteName"
+                ng-options="value for value in siteNames">
+                <option value="">-- choose site --</option>
+              </select>
+              <select 
+                ng-model="rankerName"
+                ng-options="value for value in rankerNames">
+                <option value="">-- choose ranker --</option>
+              </select>
+              <input ng-disabled="!rankerName || !siteName" 
+                     type="submit"
+                     value="Submit" />
+            </form>
+            </div>
+         </div>
+         <div ng-show="rankedDocs">
+          <button ng-click="clearRanked()">clear view</button>
+          <pre>
+            {{rankedDocs}}
+          </pre>
+         </div>
+        </div>
+    </body>
+</html>
