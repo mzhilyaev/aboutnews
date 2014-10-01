@@ -48,7 +48,6 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
   });
 
   self.port.on("updateSites", function(sites) {
-    console.log(JSON.stringify(sites));
     $scope.$apply(_ => {
       $scope.sites = [];
       Object.keys(sites).forEach(site => {
