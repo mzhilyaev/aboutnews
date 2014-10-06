@@ -28,13 +28,22 @@
                      type="submit"
                      value="Submit" />
             </form>
-            </div>
          </div>
          <div ng-show="rankedDocs">
-          <button ng-click="clearRanked()">clear view</button>
-          <pre>
-            {{rankedDocs}}
-          </pre>
+           <div ng-repeat="doc in rankedDocs" class="doc-item">
+              <div class="doc-header">
+              <span class="doc-score">{{doc.ranks[rankerName].rank}}</span>
+              <a class="doc-ref" href="{{doc.url}}">{{doc.title}}</a>
+              <span class="doc-date">{{doc.publishedDate}}</span>
+              </div>
+              <div class="doc-body">
+                <img class="doc-image" src="{{doc.image}}"/>
+                <div class="doc-summary">{{doc.summary}}</div>
+              </div>
+           </div>
+
+           <pre>
+           </pre>
          </div>
         </div>
     </body>

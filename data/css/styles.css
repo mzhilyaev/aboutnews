@@ -63,3 +63,32 @@
 .sitesTable {
   margin-top: 20px;
 }
+
+.doc-item {
+  margin-top: 20px;
+}
+
+.doc-score {
+}
+
+.doc-date {
+}
+
+.doc-ref {
+}
+
+.doc-body {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.doc-image {
+  width: 50px;
+  height: 50px;
+}
+
+.doc-summary {
+  max-width: 600px;
+  float: right;
+  margin-left: 20px;
+}

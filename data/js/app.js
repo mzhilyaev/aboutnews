@@ -81,15 +81,24 @@ newsDebugApp.controller("newsShowCtrl", function($scope) {
   $scope.showDocs = function() {
     console.log($scope.siteName);
     console.log($scope.rankerName);
+    console.log($scope.siteName, $scope.rankerName);
+    self.port.emit("rankedDocs", $scope.siteName, $scope.rankerName);
   };
 
   self.port.on("updateNames", function(data) {
     $scope.$apply(_ => {
       $scope.siteNames = data.sites;
       $scope.rankerNames = data.rankers;
-      console.log(data.rankers);
     });
   });
+
+  self.port.on("updateRanked", function(data) {
+    $scope.$apply(_ => {
+      $scope.rankedDocs = data.splice(0,10);
+      console.log($scope.rankedDocs);
+    });
+  });
+
 
   self.port.on("addSiteError", function(data) {
     $scope.$apply(_ => {
