@@ -1,0 +1,109 @@
+<!doctype html>
+<html ng-app="newsDebugApp">
+    <head>
+        <meta charset="utf-8">
+        <title>About News Debug</title>
+    </head>
+    <body ng-cloak>
+        <div class="container" ng-controller="newsDebugCtrl">
+        <!--
+         <div class="btn-group">
+             <button id="feedsTab" class="btn" ng-click="toggleConfigureFeeds()">Configure Data Feeds</button>
+             <button id="scoreTab" class="btn" ng-click="toggleScoreFeeds()">Score Data Feeds</button>
+         </div> 
+         -->
+         <div ng-show="doConfigureFeeds" class="mainContent">
+            <form ng-submit="submitFeedUrl()">
+              Add new site:
+              <input type="string"
+                     size="40"
+                     ng-model="feedUrl"/>
+              <input type="submit"
+                     value="Submit"
+                     />
+            </form>
+            <div class="error-message" ng-show="error">
+              {{error}}
+            </div>
+            <table border="yes" class="feed-table">
+            <tr>
+              <th class="feed-cell"><span>Url</span></th>
+              <th class="feed-cell"><span>Title</span></th>
+              <th class="feed-cell"><span>Updated</span></th>
+              <th class="feed-cell"><span>Docs</span></th>
+              <th class="feed-cell" colspan='2'><span>Commands</span></th>
+            </tr>
+            <tr ng-repeat="feed in feeds" class="feed-item">
+              <td class="feed-cell"><span><a href="{{feed.url}}">{{feed.url}}</a></span></td>
+              <td class="feed-cell"><span>{{feed.title}}</span></td>
+              <td class="feed-cell" align="right"><span>{{feed.lastUpdated}}</span></td>
+              <td class="feed-cell" align="right"><span>{{feed.size}}</span></td>
+              <td class="feed-cell"><button ng-click="scoreFeed(feed.url)">Score Again</button></td>
+              <td class="feed-cell"><button ng-click="removeFeed(feed.url)">Remove</button></td>
+            </tr>
+            </table>
+            <!-- <pre ng-show="newsDebug">{{newsDebugStr}}</pre> -->
+         </div>
+         <div ng-class="recommend">
+            <form ng-submit="recommend()">
+              Recommend at most
+              <input type="integer"
+                     size="5"
+                     ng-model="maxStories"/>
+              stories for past
+              <input type="integer"
+                     size="5"
+                     ng-model="hours"/>
+              hours
+              <input type="submit"
+                     value="Submit"
+                     />
+            </form>
+            <div class="scored-results">
+                 <h4>Recommended Stories</h4>
+                 <div ng-repeat="item in recommended" class="scored-doc-container">
+                   <div class="doc-title">  
+                    <img class="favicon" src="{{'http://' + item.tld + '/favicon.ico'}}"></img>
+                    <span class="doc-score">{{Math.round(1000*item.doc.score) / 1000}}</span>
+                    <a href="{{item.doc.url}}">{{item.doc.title}}</a>
+                    <span class="doc-published">{{item.doc.publishedDate}}</doc>
+                    <span ng-show="item.doc.seen"><img ng-src="{{dataUrl + 'images/smile.png'}}"/></span>
+                  </div>
+                  <div class="doc-summary">{{item.doc.summary}}
+                     [<a href="#" ng-click="toggleKeys(0,$index)">Keywords</a>]
+                 </div>
+                 <div id="{{'_0_' + $index}}" class="doc-terms" style="display: none">
+                   <span class="doc-keyword" ng-repeat="term in item.doc.scoreKeys">
+                     {{term.token}}:{{Math.round(10000*term.weight)/10000}}
+                   <span>
+                 </div>
+           </div>
+         </div>
+         <div ng-show="doScoreFeeds" class="mainContent">
+            <div ng-repeat="feed in feeds">
+               <h4>{{feed.url}} scored against history on {{feed.tld}} contains {{feed.size}} stories
+                   [<a herf="#" id="{{'_feed_sort_' + $index}}" ng-click="toggleSort($index)">sort by score</a>]
+                   [<a herf="#" id="{{'_feed_toggle_' + feed.id}}" ng-click="toggleFeed(feed.id)">hide</a>]
+               </h4>
+               <div class="scored-results" id="{{'_feed_scored_' + feed.id}}">
+                 <div ng-repeat="doc in feed.docs" class="scored-doc-container">
+                   <div class="doc-title">  
+                    <span class="doc-score">{{Math.round(100*doc.score) / 100}}</span>
+                    <a href="{{doc.url}}">{{doc.title}}</a>
+                    <span class="doc-published">{{doc.publishedDate}}</doc>
+                    <span ng-show="doc.seen"><img ng-src="{{dataUrl + 'images/smile.png'}}"/></span>
+                  </div>
+                  <div class="doc-summary">{{doc.summary + " ..."}}
+                  [<a href="#" ng-click="toggleKeys(feed.id,$index)">Keywords</a>]
+                 </div>
+                 <div id="{{'_' + feed.id + '_' + $index}}" class="doc-terms" style="display: none">
+                  <span class="doc-keyword" ng-repeat="term in doc.scoreKeys">
+                    {{term.token}}:{{Math.round(1000*term.weight)/1000}}
+                  <span>
+                 </div>
+               </div>
+            <div>
+         </div>
+        </div>
+    </body>
+</html>
