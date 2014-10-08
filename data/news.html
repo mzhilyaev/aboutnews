@@ -14,23 +14,32 @@
          -->
          <div class="mainContent">
             <form ng-submit="showDocs()" style="display: inline">
-              <select 
+              <select
                 ng-model="siteName"
                 ng-options="value for value in siteNames">
                 <option value="">-- choose site --</option>
               </select>
-              <select 
+              <select
                 ng-model="rankerName"
                 ng-options="value for value in rankerNames">
                 <option value="">-- choose ranker --</option>
               </select>
-              <input ng-disabled="!rankerName || !siteName" 
+              <input ng-disabled="!rankerName || !siteName"
                      type="submit"
                      value="Submit" />
             </form>
+            Order by
+            <input type="radio" ng-model="docOrder" value="score" ng-change="orderDocs()"> Score
+            <input type="radio" ng-model="docOrder" value="date" ng-change="orderDocs()"> Date
+            Page <input type="number" ng-model="page" size=5/>
+
+<!--
+            <button ng-click="orderByScore()">Order by Score</button>
+            <button ng-click="orderByDate()">Order by Date</button>
+       -->
          </div>
          <div ng-show="rankedDocs">
-           <div ng-repeat="doc in rankedDocs" class="doc-item">
+           <div ng-repeat="doc in rankedDocs | docPage:page" class="doc-item">
               <div class="doc-header">
               <span class="doc-score">{{doc.ranks[rankerName].rank}}</span>
               <a class="doc-ref" href="{{doc.url}}">{{doc.title}}</a>
@@ -41,11 +50,11 @@
                 <div class="doc-summary">{{doc.summary}}</div>
               </div>
               <div ng-show="doc.topics.length || doc.tags.length || doc.entities.length">
-                <img class="doc-extra-img" 
+                <img class="doc-extra-img"
                    ng-show="!shown[doc.url]"
                    ng-click="toggleDocExtras(doc.url)"
                    ng-src="{{dataUrl + 'images/arrow-right.png'}}"/>
-               <img class="doc-extra-img" 
+               <img class="doc-extra-img"
                    ng-show="shown[doc.url]"
                    ng-click="toggleDocExtras(doc.url)"
                    ng-src="{{dataUrl + 'images/arrow-down.png'}}"/>

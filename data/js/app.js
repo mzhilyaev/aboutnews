@@ -74,10 +74,22 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
 
 });
 
+newsDebugApp.filter("docPage", function() {
+  return function(input, page) {
+    if (!input) return [];
+    var pageLen = 10;
+    if (page * pageLen >= input.length) {
+      page = Math.floor(input.length / pageLen);
+    }
+    return input.slice(page*pageLen, (page+1)*pageLen);
+  };
+});
 
 newsDebugApp.controller("newsShowCtrl", function($scope) {
   $scope.Math = window.Math;
   $scope.shown = {};
+  $scope.docOrder = "date";
+  $scope.page = 0;
 
   $scope.showDocs = function() {
     console.log($scope.siteName);
@@ -90,6 +102,18 @@ newsDebugApp.controller("newsShowCtrl", function($scope) {
     $scope.shown[url] = !$scope.shown[url];
   };
 
+  $scope.orderDocs = function() {
+    if ($scope.docOrder == "score") {
+      $scope.rankedDocs = $scope.docs.sort(function(a, b) {
+        return b.ranks[$scope.rankerName].rank - a.ranks[$scope.rankerName].rank;
+      });
+    } else {
+      $scope.rankedDocs = $scope.docs.sort(function(a, b) {
+        return b.published - a.published;
+      });
+    }
+  },
+
   self.port.on("updateNames", function(data) {
     $scope.$apply(_ => {
       $scope.siteNames = data.sites;
@@ -99,9 +123,9 @@ newsDebugApp.controller("newsShowCtrl", function($scope) {
 
   self.port.on("updateRanked", function(data) {
     $scope.$apply(_ => {
-      $scope.rankedDocs = data.sort(function (a,b) {
-        return b.published - a.published;
-      }).splice(0,20);
+      $scope.docs = data;
+      $scope.orderDocs();
+      console.log(data.length + " <<<<");
     });
   });
 
