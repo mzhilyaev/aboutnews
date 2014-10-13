@@ -31,12 +31,24 @@
             Order by
             <input type="radio" ng-model="docOrder" value="score" ng-change="orderDocs()"> Score
             <input type="radio" ng-model="docOrder" value="date" ng-change="orderDocs()"> Date
-            Page <input type="number" ng-model="page" size=5/>
 
-<!--
-            <button ng-click="orderByScore()">Order by Score</button>
-            <button ng-click="orderByDate()">Order by Date</button>
-       -->
+            <div ng-show="rankedDocs" class="page-walk">
+              <div class="page-walk-pnum">
+              Page <input type="number" ng-model="page" size=3/>
+              </div>
+              <img class="page-walk-img"
+                   ng-click="pageWalk('first')"
+                   ng-src="{{dataUrl + 'images/rewind.png'}}"/>
+              <img class="page-walk-img"
+                   ng-click="pageWalk('prev')"
+                   ng-src="{{dataUrl + 'images/arrow-left.png'}}"/>
+              <img class="page-walk-img"
+                   ng-click="pageWalk('next')"
+                   ng-src="{{dataUrl + 'images/arrow-right.png'}}"/>
+              <img class="page-walk-img"
+                   ng-click="pageWalk('last')"
+                   ng-src="{{dataUrl + 'images/forward.png'}}"/>
+            </div>
          </div>
          <div ng-show="rankedDocs">
            <div ng-repeat="doc in rankedDocs | docPage:page" class="doc-item">

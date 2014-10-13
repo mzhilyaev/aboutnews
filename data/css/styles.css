@@ -8,7 +8,7 @@
 .feed-cell:first-child {padding: 4px;}
 .feed-cell span {padding: 4px;}
 .error-message {font-size: large; color: red;}
-.mainContent {padding-top: 10px;}
+.mainContent {padding-top: 10px; position: relative;}
 .inactive-tab {color: red; border-bottom: 1px solid black;}
 .active-tab {color: blue; border: 1px solid black; border-bottom: 1px solid white;}
 .tab-label {position: relative; margin-bottom: -1px;}
@@ -121,4 +121,21 @@
 .doc-extra-term {
   font-style: italic;
   margin-right: 20px;
+}
+
+.rankedDocs {
+  padding-bottom: 20px;
+}
+
+.page-walk {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.page-walk-img {
+  width: 15px;
+  height: 15px;
+}
+
+.page-walk-pnum {
 }

@@ -74,10 +74,12 @@ newsDebugApp.controller("newsDebugCtrl", function($scope) {
 
 });
 
+const PAGE_LEN = 10;
+
 newsDebugApp.filter("docPage", function() {
   return function(input, page) {
     if (!input) return [];
-    var pageLen = 10;
+    var pageLen = PAGE_LEN;
     if (page * pageLen >= input.length) {
       page = Math.floor(input.length / pageLen);
     }
@@ -90,6 +92,26 @@ newsDebugApp.controller("newsShowCtrl", function($scope) {
   $scope.shown = {};
   $scope.docOrder = "date";
   $scope.page = 0;
+
+  $scope.pageWalk = function(where) {
+    var maxPage = Math.floor($scope.rankedDocs.length / PAGE_LEN);
+    switch(where) {
+      case 'first':
+        $scope.page = 0;
+        break;
+      case 'next':
+        $scope.page++;
+        break;
+      case 'prev':
+        $scope.page--;
+        break;
+      case 'last':
+        $scope.page = maxPage;
+        break;
+    }
+    if ($scope.page < 0 ) $scope.page = 0;
+    if ($scope.page > maxPage) $scope.page = maxPage;
+  };
 
   $scope.showDocs = function() {
     console.log($scope.siteName);
@@ -125,7 +147,6 @@ newsDebugApp.controller("newsShowCtrl", function($scope) {
     $scope.$apply(_ => {
       $scope.docs = data;
       $scope.orderDocs();
-      console.log(data.length + " <<<<");
     });
   });
 
