@@ -157,8 +157,6 @@ newsDebugApp.controller("newsShowCtrl", function($scope) {
 
 });
 
-//angular.bootstrap(document, ['newsDebugApp']);
-
 // Low-level data injection
 self.port.on("style", function(file) {
   let link = document.createElement("link");
@@ -166,4 +164,8 @@ self.port.on("style", function(file) {
   link.setAttribute("rel", "stylesheet");
   link.setAttribute("type", "text/css");
   document.head.appendChild(link);
+});
+
+self.port.on("bootstrap", function() {
+  angular.bootstrap(document, ['newsDebugApp']);
 });
