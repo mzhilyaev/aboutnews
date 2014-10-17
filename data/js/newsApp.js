@@ -1,8 +1,8 @@
 "use strict";
 
-let newsApp = angular.module("newsApp", ["ngRoute", "newsAppControllers"]);
+let newsApp = angular.module("newsApp", ["newsAppControllers"]);
 
-newsApp.controller('MainController', function($scope, $route, $routeParams, $location) {
+newsApp.controller('MainController', function($scope, $location) {
   $scope.dataUrl = self.options.dataUrl;
   $scope.state = {
     score: true,
@@ -21,7 +21,7 @@ newsApp.controller('MainController', function($scope, $route, $routeParams, $loc
   };
 });
 
-newsApp.config(function($routeProvider, $locationProvider, $sceDelegateProvider, $compileProvider) {
+newsApp.config(function($locationProvider, $sceDelegateProvider, $compileProvider) {
    $sceDelegateProvider.resourceUrlWhitelist([
     'self',
     self.options.dataUrl + "/**",
