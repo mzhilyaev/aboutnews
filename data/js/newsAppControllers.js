@@ -79,6 +79,25 @@ newsAppControllers.controller("docRankingCtr", function($scope, $rootScope) {
   self.port.emit("updateNames");
 });
 
-newsAppControllers.controller("siteDataCtr", function($scope) {
-  console.log("HERERE\n");
+newsAppControllers.controller("siteViewCtr", function($scope) {
+  $scope.userDocs = {};
+
+  $scope.showDocs = function() {
+    self.port.emit("siteDocs", $scope.siteName);
+  };
+
+  self.port.on("siteDocs", function(data) {
+    $scope.$apply(_ => {
+      $scope.userDocs = data.userDocs;
+    });
+  });
+
+  self.port.on("updateNames", function(data) {
+    $scope.$apply(_ => {
+      $scope.siteNames = data.sites;
+      $scope.rankerNames = data.rankers;
+    });
+  });
+
+  self.port.emit("updateNames");
 });

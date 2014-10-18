@@ -1,0 +1,19 @@
+<script type="text/ng-template" id="siteView.html">
+ <div class="mainContent" ng-controller="siteViewCtr">
+    <form ng-submit="showDocs()" style="display: inline">
+      <select
+        ng-model="siteName"
+        ng-options="value for value in siteNames">
+        <option value="">-- choose site --</option>
+      </select>
+      <input ng-disabled="!siteName"
+             type="submit"
+             value="Submit" />
+    </form>
+ <div ng-show="userDocs">
+  <pre>
+    {{jsonify(userDocs)}}
+  </pre>
+ </div> 
+</div> <!-- main content -->
+</script>

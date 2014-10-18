@@ -3,6 +3,7 @@
 let newsApp = angular.module("newsApp", ["newsAppControllers"]);
 
 newsApp.controller('MainController', function($scope, $location) {
+  $scope.Math = window.Math;
   $scope.dataUrl = self.options.dataUrl;
   $scope.state = {
     score: true,
@@ -18,6 +19,10 @@ newsApp.controller('MainController', function($scope, $location) {
 
   $scope.navigate = function(view) {
     setState(view);
+  };
+
+  $scope.jsonify = function(obj) {
+    return JSON.stringify(obj, null, 1);
   };
 });
 
